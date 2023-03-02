@@ -1,6 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.9
 
-RUN yum update -y
+RUN yum update -y \
+    && yum install -y gcc-c++ python3-devel
 
 # setup python
 COPY ./requirements.txt /opt/

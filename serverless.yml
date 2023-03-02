@@ -15,7 +15,3 @@ functions:
   parse:
     image: "${aws:accountId}.dkr.ecr.${aws:region}.amazonaws.com/\
       ${env:REPOSITORY}:latest"
-    events:
-      - http:
-          path: mecab/parse
-          method: post

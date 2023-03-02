@@ -1,26 +1,31 @@
 import json
 import MeCab
+import neologdn
 
-neologd_tagger = MeCab.Tagger(
+tagger = MeCab.Tagger(
     '-O wakati '
     '-r /dev/null ')
 
 
 def lambda_handler(event, context):
-    node = neologd_tagger.parseToNode(event['body'])
+    sentence = neologdn.normalize(event['sentence'])
+    parsed_sentence = tagger.parse(sentence).strip().split()
+    return {'result': parsed_sentence}
 
-    result = []
-    while node:
-        if not node.feature.startswith('BOS/EOS'):
-            result.append(node.feature)
-        node = node.next
+    # node = neologd_tagger.parseToNode(event['body'])
 
-    return {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        },
-        "body": json.dumps(result),
-        "isBase64Encoded": False
-    }
+    # result = []
+    # while node:
+    #     if not node.feature.startswith('BOS/EOS'):
+    #         result.append(node.feature)
+    #     node = node.next
+
+    # return {
+    #     "statusCode": 200,
+    #     "headers": {
+    #         "Content-Type": "application/json",
+    #         "Access-Control-Allow-Origin": "*"
+    #     },
+    #     "body": json.dumps(result),
+    #     "isBase64Encoded": False
+    # }

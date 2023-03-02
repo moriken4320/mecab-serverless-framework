@@ -9,5 +9,5 @@ RUN pip install --upgrade pip && pip install -r /opt/requirements.txt
 
 # set function code
 WORKDIR /var/task
-COPY app.py .
-CMD ["app.lambda_handler"]
+COPY lambda_function.py .
+CMD ["lambda_function.lambda_handler"]

@@ -2,20 +2,19 @@ service: pymecab-lambda-container
 
 frameworkVersion: '3'
 
+useDotenv: true
+
 provider:
   name: aws
-  runtime: python3.8
+  runtime: python3.9
   stage: dev
-  region: ${self:custom.env.region}
+  region: ${env:REGION}
   timeout: 30
-
-custom:
-  env: ${file(./config/env.yml)}
 
 functions:
   parse:
-    image: "${self:custom.env.accountID}.dkr.ecr.${self:custom.env.region}.amazonaws.com/\
-      ${self:custom.env.repository}:latest"
+    image: "${aws:accountId}.dkr.ecr.${aws:region}.amazonaws.com/\
+      ${env:REPOSITORY}:latest"
     events:
       - http:
           path: mecab/parse
